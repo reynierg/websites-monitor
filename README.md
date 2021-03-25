@@ -151,6 +151,7 @@ files with the test coverage report and in the terminal will appear the names of
 executed tests, and a summary of the test's coverage.
 
 # TODO
+- Use [Sentry](https://sentry.io/welcome/) for monitor and track errors and crashes.
 - Use [Apache Avro](https://www.confluent.io/blog/avro-kafka-data/) as a serialization 
   protocol for the Kafka messages. Avro is a data serialization system. Combined with 
   Kafka, it provides schema-based, robust, and fast binary serialization. 
