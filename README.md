@@ -126,7 +126,7 @@ python3 -m venv venv
 ```
 
 ## Install the development dependencies
-`pip install -r dev-requirements.txt`
+`pip install -r requirements-dev.txt`
 
 ## Run the tests
 Once installed the dependencies, is only necessary to execute "tox", and it will take 
