@@ -30,19 +30,19 @@ regarding the status check of a website:
 
 The solution was implemented using an event-driven architecture using microservices.<br>
 It consists of two microservices: a Monitor and a Consumer.<br>
-The execution of the microservices is managed using docker-compose.
+The execution of the microservices is managed using [Docker Compose](https://docs.docker.com/compose/).
 
 ## Monitor
 
-It's a service implemented as a web crawler, using Scrapy, which is a fast 
-high-level framework based on the Twisted event-driven network programing framework. 
+It's a service implemented as a web crawler, using [Scrapy](https://scrapy.org/), which is a fast 
+high-level framework based on the [Twisted](https://twistedmatrix.com/trac/) event-driven network programing framework. 
 Periodically, it queries the websites specified in the corresponding configuration 
-file, and stores the metrics corresponding to each website in an instance of Apache Kafka.
+file, and stores the metrics corresponding to each website in an instance of [Apache Kafka](https://kafka.apache.org/).
 
 ## Consumer
 
 This service polls website metrics from the Apache Kafka server and stores them in a 
-PostgreSQL database.<br>
+[PostgreSQL](https://www.postgresql.org/) database.<br>
 Regarding the implementation details:<br>
 - A dedicated thread is created to polling the websites' metrics from the Kafka server. 
   The obtained metrics are fed to the main thread through a thread-safe queue.
@@ -65,12 +65,12 @@ It consists of two tables `websites` and `metrics`, with a 1:M relationship betw
 For development purpose, source code quality analysis, detection of errors and for running tests, 
 the following dependencies are required:
 
-- tox
-- flake8
-- pylint
-- mypy
-- pytest
-- pytest-cov
+- [tox](https://tox.readthedocs.io/en/latest/)
+- [flake8](https://flake8.pycqa.org/en/latest/)
+- [pylint](https://www.pylint.org/)
+- [mypy](https://mypy.readthedocs.io/en/stable/)
+- [pytest](https://docs.pytest.org/en/stable/)
+- [pytest-cov](https://pytest-cov.readthedocs.io/en/latest/)
 
 # CONFIGURATION
 
@@ -138,13 +138,17 @@ files with the test coverage report and in the terminal will appear the names of
 executed tests, and a summary of the test's coverage.
 
 # TODO
+- Use [Apache Avro](https://www.confluent.io/blog/avro-kafka-data/) as a serialization 
+  protocol for the Kafka messages. Avro is a data serialization system. Combined with 
+  Kafka, it provides schema-based, robust, and fast binary serialization. 
 - Create installation packages.
 - Write more unit tests for both services.
 - Write integration tests for the `monitor` and `consumer`.
 - Improve the test's coverage to get it to around a 90%.
 - Configure CI/CD.
 - Deploy the `monitor` crawler to some distributed crawler management infrastructure 
-  like `scrapyd` or `Gerapy`.
+  like [Scrapyd](https://scrapyd.readthedocs.io/en/stable/) or 
+  [Gerapy](https://docs.gerapy.com/en/latest/).
 
 # REFERENCES
 
@@ -158,7 +162,7 @@ executed tests, and a summary of the test's coverage.
 
 [Aiven PostgreSQL tutorial](https://aiven.io/blog/aiven-postgresql-tutorial)
 
-[An introduction to PostgreSQL](https://aiven.io/blog/an-introduction-to-postgresql)
+[An introduction to PostgreSQL(Aiven)](https://aiven.io/blog/an-introduction-to-postgresql)
 
 [Python Postgres psycopg2 ThreadedConnectionPool exhausted](https://stackoverflow.com/questions/48532301/python-postgres-psycopg2-threadedconnectionpool-exhausted)
 
@@ -171,6 +175,8 @@ executed tests, and a summary of the test's coverage.
 [Scrapy 2.4 documentation](https://docs.scrapy.org/en/latest/)
 
 [Welcome to Mypy documentation!](https://mypy.readthedocs.io/en/stable/)
+
+[Welcome to the tox automation project](https://tox.readthedocs.io/en/latest/)
 
 [unittest.mock — mock object library](https://docs.python.org/3/library/unittest.mock.html)
 
