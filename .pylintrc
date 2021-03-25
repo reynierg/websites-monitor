@@ -1,0 +1,13 @@
+[MASTER]
+extension-pkg-whitelist=pydantic
+
+[MESSAGES CONTROL]
+# R0913 -- Too many arguments
+# C0114 -- Missing module docstring (missing-module-docstring)
+# R0902 -- Too many instance attributes
+# R0903 -- Too few public methods
+disable=R0913,C0114,R0902,R0903
+
+[SIMILARITIES]
+# Minimum lines number of a similarity.
+min-similarity-lines=6

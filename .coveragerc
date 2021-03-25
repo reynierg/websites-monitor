@@ -1,0 +1,14 @@
+[run]
+source =
+    common/
+    consumer/
+    monitor/
+
+omit=
+    .venv/*
+    .t_venv/*
+    .tox/*
+    */tests/*
+
+[html]
+    directory = htmlcov
