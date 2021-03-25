@@ -75,21 +75,28 @@ the following dependencies are required:
 # CONFIGURATION
 
 - Clone the project executing the following command in a terminal:\
-`git clone https://github.com/reynierg/websites-monitor.git`
-- Make sure to copy the Kafka required certificates and key files to the folder 
-  `kafka_certs`. The expected file names are `ca.pem`, `service.cert` and `service.key`
+`git clone https://github.com/reynierg/websites-monitor.git` <br><br>
+- Make sure to copy the Kafka required certificates and key files(they should be 
+  acquired from the Aiven cosole, from the Kafka Service) to the directory 
+  `kafka_certs`, that is in the project's root directory. These files, will be used by 
+  both services(the `motitor` and the `consumer`) to connect to the Apache Kafka 
+  server. The expected file names are `ca.pem`, `service.cert` and `service.key`.
+  <br><br>
 - **monitor**: In the `docker-compose.yml` file that is in the project' root directory, 
   update the following environment variables properly: `TOPIC_NAME`, 
-  `BOOTSTRAP_SERVERS`. <br>
+  `BOOTSTRAP_SERVERS`. <br><br>
   By default, the websites urls are parsed from an existing CSV file located on 
-  `monitor/data/urls.csv`. Modify the content of the file to your needs<br>
+  `monitor/data/urls.csv`. Modify the content of the file to your needs.<br>
   To parse the urls from a JSON file instead, update the file in 
   `monitor/data/urls.json` and uncomment the following line in the 
   `docker-compose.yaml` file:<br>
-  `URLS_PROVIDER_TYPE=JsonUrlsProvider`
+  `URLS_PROVIDER_TYPE=JsonUrlsProvider`.<br><br>
+  By default, the monitor will check the status of the corresponding websites every 
+  300s, to change this frequency to a different value, modify in the `docker-compose.yaml` file, 
+  the value being assigned to the environment variable `WEBSITES_CHECK_INTERVAL`.<br><br>
 - **consumer**: In the `docker-compose.yml` file that is in the project's root 
   directory, update the following environment variables properly: `TOPIC_NAME`, 
-  `PG_URI`, `BOOTSTRAP_SERVERS`.<br>
+  `PG_URI`, `BOOTSTRAP_SERVERS`.<br><br>
   By default, when the service is asked to abort execution, it will wait for that all 
   the already acquired websites' metrics from Kafka, to be persisted in the database, 
   before shut-down. To change this behaviour, uncomment the following line in the 
@@ -114,10 +121,16 @@ For execute the consumer, execute the following command:<br>
 This command will build the corresponding docker image the first time, and will run 
 it.<br>
 
+To be able to execute every service in a different machine or VM, just clone the repository 
+in 2 different machines/VMs, and follow the configuration steps mentioned previously. Make 
+sure to copy the Kafka service certificates and key files to both machines, inside the 
+`kafka_certs` directory.
+
 # RUN-TESTS
 
-For run the linters and tests, first will be needed to install the development 
-requirements:
+For run the linters and tests is being used `tox`. It will run the linters and tests 
+against Python 3.6 and Python3(whatever be the last version installed). For that 
+purpose, first will be needed to install the development requirements:
 ## Create and activate a virtual environment
 Being in the project directory, execute the following commands:
 ```
