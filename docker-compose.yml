@@ -20,7 +20,7 @@ services:
       - BOOTSTRAP_SERVERS=BOOTSTRAP_SERVERS_HERE
       # This should be adjusted with the corresponding Kafka topic's name:
       - TOPIC_NAME=TOPIC_NAME_HERE
-      # Make sure that SSL files ar manually copied to 'kafka_certs' dir, before execute docker-compose up.
+      # Make sure that SSL files are manually copied to 'kafka_certs' directory, before execute: sudo make run-monitor.
       # Docker-compose will copy the SSL files from 'kafka_certs' to '/app/kafka_certs/' inside the container.
       # That is why the following 3 ENV variables doesn't need modification:
       - SSL_CAFILE=/app/kafka_certs/ca.pem
@@ -55,7 +55,7 @@ services:
       - CLIENT_ID=Client1
       - CONSUMER_GROUP=MetricsCG
       - AUTO_OFFSET_RESET=earliest
-      # Make sure that SSL files ar manually copied to 'kafka_certs' dir, before execute docker-compose up.
+      # Make sure that SSL files are manually copied to 'kafka_certs' directory, before execute: sudo make run-consumer.
       # Docker-compose will copy the SSL files from 'kafka_certs' to '/app/kafka_certs/' inside the container.
       # That is why the following 3 ENV variables doesn't need modification:
       - SSL_CAFILE=/app/kafka_certs/ca.pem
