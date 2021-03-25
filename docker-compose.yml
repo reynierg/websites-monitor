@@ -1,0 +1,65 @@
+version: '3'
+services:
+  monitor:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./monitor/Dockerfile
+#    env_file:
+#     - ./monitor/monitor/.env
+    environment:
+      - LOG_LEVEL=DEBUG
+      # The urls of the websites to be periodically checked, should be stored in a file in the directory 'monitor/data'.
+      # This directory is automatically copied inside the container, when docker-compose up is executed.
+      # The urls file format could be either: CSV or JSON.
+      # By default, the websites urls are parsed from an existing file named 'urls.csv', in the mentioned directory.
+      # Uncomment the following line, to parse the urls from the file named 'urls.json' instead:
+      #- URLS_PROVIDER_TYPE=JsonUrlsProvider
+      # This should be adjusted with the corresponding BOOTSTRAP_SERVERS.
+      # If there are more than one, use a comma separated value:
+      - BOOTSTRAP_SERVERS=BOOTSTRAP_SERVERS_HERE
+      # This should be adjusted with the corresponding Kafka topic's name:
+      - TOPIC_NAME=TOPIC_NAME_HERE
+      # Make sure that SSL files ar manually copied to 'kafka_certs' dir, before execute docker-compose up.
+      # Docker-compose will copy the SSL files from 'kafka_certs' to '/app/kafka_certs/' inside the container.
+      # That is why the following 3 ENV variables doesn't need modification:
+      - SSL_CAFILE=/app/kafka_certs/ca.pem
+      - SSL_CERTFILE=/app/kafka_certs/service.cert
+      - SSL_KEYFILE=/app/kafka_certs/service.key
+      # Specifies the websites check frequency in seconds:
+      - WEBSITES_CHECK_INTERVAL=300
+    volumes:
+      - ./:/app
+  consumer:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./consumer/Dockerfile
+    stop_signal: SIGINT
+#    env_file:
+#      - ./consumer/consumer/.env
+    environment:
+      - LOG_LEVEL=DEBUG
+      # Uncomment the following line, if you would like that when the process is requested to abort, the already
+      # acquired messages(websites metrics) from the Kafka server, that have not been yet started to be processed,
+      # to be dropped and not wait for them to be stored in the database first. Keep in mind that in that case,
+      # most probably they will be lost forever, because of auto-commit offset:
+      #- DROP_MESSAGES_IF_ABORT=1
+      # This should be adjusted with the corresponding Postgres DSN uri:
+      - PG_URI=POSTGRES_URI_HERE
+      # This should be adjusted with the corresponding BOOTSTRAP_SERVERS.
+      # If there are more than one, use a comma separated value:
+      - BOOTSTRAP_SERVERS=BOOTSTRAP_SERVERS_HERE
+      # This should be adjusted with the corresponding Kafka topic's name:
+      - TOPIC_NAME=TOPIC_NAME_HERE
+      - CLIENT_ID=Client1
+      - CONSUMER_GROUP=MetricsCG
+      - AUTO_OFFSET_RESET=earliest
+      # Make sure that SSL files ar manually copied to 'kafka_certs' dir, before execute docker-compose up.
+      # Docker-compose will copy the SSL files from 'kafka_certs' to '/app/kafka_certs/' inside the container.
+      # That is why the following 3 ENV variables doesn't need modification:
+      - SSL_CAFILE=/app/kafka_certs/ca.pem
+      - SSL_CERTFILE=/app/kafka_certs/service.cert
+      - SSL_KEYFILE=/app/kafka_certs/service.key
+    volumes:
+      - ./:/app
