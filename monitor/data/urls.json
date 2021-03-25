@@ -1,0 +1,5 @@
+[
+  {"url":"https://www.google.com","regexp":"Gmail"},
+  {"url":"https://realpython.com","regexp":"All Tutorial \\w+"},
+  {"url":"https://reynierdoesnotexistAGDBFHORU23523.com","regexp":"DOESNOTEXIST"}
+]
