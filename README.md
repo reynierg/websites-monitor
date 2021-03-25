@@ -147,6 +147,8 @@ executed tests, and a summary of the test' coverage.
 
 [Create your own data stream for Kafka with Python and Faker](https://aiven.io/blog/create-your-own-data-stream-for-kafka-with-python-and-faker)
 
+[Viewing and Resetting Consumer Group Offsets](https://help.aiven.io/en/articles/2661525-viewing-and-resetting-consumer-group-offsets)
+
 [Aiven PostgreSQL tutorial](https://aiven.io/blog/aiven-postgresql-tutorial)
 
 [An introduction to PostgreSQL](https://aiven.io/blog/an-introduction-to-postgresql)
