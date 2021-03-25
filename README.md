@@ -11,7 +11,7 @@ Websites monitor
 
 # DESCRIPTION
 
-Websites monitor is a system for periodical monitoring of certain statistics related 
+Websites monitor is a system for the periodic monitoring of certain statistics related 
 to the status of preconfigured websites. The following parameters are persisted, 
 regarding the status check of a website:
 - **url**: Url of the website checked
@@ -53,9 +53,16 @@ Regarding the implementation details:<br>
 - The service implements graceful shutdown, and by default, persist in the database 
   any acquired metrics from Kafka, before shut-down.  
   
+## Database
+
+The schema of the PostgreSQL database being used by the `Consumer` to store the metrics is depicted in the following image.<br>
+It consists of two tables `websites` and `metrics`, with a 1:M relationship between them:<br>
+![alt text](https://github.com/reynierg/websites-monitor/blob/main/images/db_schema.png "Database schema")
+
+
 # DEV-DEPENDENCIES
 
-For development purpose, source code quality analysis, detection of error and for running tests, 
+For development purpose, source code quality analysis, detection of errors and for running tests, 
 the following dependencies are required:
 
 - tox
@@ -67,33 +74,33 @@ the following dependencies are required:
 
 # CONFIGURATION
 
+- Clone the project executing the following command in a terminal:\
+`git clone https://github.com/reynierg/websites-monitor.git`
 - Make sure to copy the Kafka required certificates and key files to the folder 
-  `kafka_certs`.
+  `kafka_certs`. The expected file names are `ca.pem`, `service.cert` and `service.key`
 - **monitor**: In the `docker-compose.yml` file that is in the project' root directory, 
   update the following environment variables properly: `TOPIC_NAME`, 
   `BOOTSTRAP_SERVERS`. <br>
-  By default, the websites urls are parsed from an existing file located on 
-  'monitor/data/urls.csv'. Modify the content of the file to your needs<br>
+  By default, the websites urls are parsed from an existing CSV file located on 
+  `monitor/data/urls.csv`. Modify the content of the file to your needs<br>
   To parse the urls from a JSON file instead, update the file in 
-  "monitor/data/urls.json" and uncomment the following line in the 
+  `monitor/data/urls.json` and uncomment the following line in the 
   `docker-compose.yaml` file:<br>
-  URLS_PROVIDER_TYPE=JsonUrlsProvider
-- **consumer**: In the `docker-compose.yml` file that is in the project' root 
+  `URLS_PROVIDER_TYPE=JsonUrlsProvider`
+- **consumer**: In the `docker-compose.yml` file that is in the project's root 
   directory, update the following environment variables properly: `TOPIC_NAME`, 
   `PG_URI`, `BOOTSTRAP_SERVERS`.<br>
   By default, when the service is asked to abort execution, it will wait for that all 
   the already acquired websites' metrics from Kafka, to be persisted in the database, 
   before shut-down. To change this behaviour, uncomment the following line in the 
   `docker-compose.yaml` file:<br>
-  DROP_MESSAGES_IF_ABORT=1<br>
+  `DROP_MESSAGES_IF_ABORT=1`<br>
   Keep in mind that in that case, most probably they will be lost forever, because of 
   auto-commit offset.
 
 # RUN
-Clone the project executing the following command in a terminal:\
-`git clone https://github.com/reynierg/websites-monitor.git`
 
-Open two terminals(one for run every service), and in both of them, move to the 
+Open two terminals(one for run every service), and in both of them, navigate to the 
 project directory using:\
 `cd websites-monitor`
 
@@ -128,11 +135,11 @@ care of run "flake8", "pylint", "mypy" and the tests using "pytest":\
 
 If the tests run successfully, in a directory named "htmlcov", will be created html 
 files with the test coverage report and in the terminal will appear the names of the 
-executed tests, and a summary of the test' coverage.
+executed tests, and a summary of the test's coverage.
 
 # TODO
 - Create installation packages.
-- Write more unit tests for the `monitor`.
+- Write more unit tests for both services.
 - Write integration tests for the `monitor` and `consumer`.
 - Improve the test's coverage to get it to around a 90%.
 - Configure CI/CD.
