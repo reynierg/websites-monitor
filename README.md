@@ -39,7 +39,8 @@ The execution of the microservices is managed using [Docker Compose](https://doc
 It's a service implemented as a web crawler, using [Scrapy](https://scrapy.org/), which is a fast 
 high-level framework based on the [Twisted](https://twistedmatrix.com/trac/) event-driven network programing framework. 
 Periodically, it queries the websites specified in the corresponding configuration 
-file, and stores the metrics corresponding to each website in an instance of [Apache Kafka](https://kafka.apache.org/).
+file, and stores the metrics corresponding to each website in an instance of [Apache Kafka](https://kafka.apache.org/) 
+in the corresponding topic.
 
 ## Consumer
 
@@ -109,7 +110,11 @@ the following dependencies are required:
 
 # RUN
 
-Open two terminals(one for run every service), and in both of them, navigate to the 
+There are different ways to run the two services:<br>
+
+***I: Execute each service in a different terminal:***<br> 
+
+Open two terminals(one for run each service), and in both of them, navigate to the 
 project directory using:\
 `cd websites-monitor`
 
@@ -123,8 +128,13 @@ For execute the consumer, execute the following command:<br>
 This command will build the corresponding docker image the first time, and will run 
 it.<br>
 
-To be able to execute every service in a different machine or VM, just clone the repository 
-in 2 different machines/VMs, and follow the configuration steps mentioned previously. Make 
+***II: Execute both services in the same terminal:***<br> 
+
+Execute the following command in the terminal:<br>
+`sudo make run-local`
+
+***III Execute each service in a different machine or VM:***<br> 
+Clone the repository in 2 different machines/VMs, and follow the configuration steps mentioned previously. Make 
 sure to copy the Kafka service certificates and key files to both machines, inside the 
 `kafka_certs` directory.
 
