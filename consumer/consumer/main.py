@@ -328,7 +328,7 @@ class MainLoop:
             while True:
                 # The main execution thread will block until either, a message is
                 # available in the messages_queue, or a SIGINT/SIGTERM/SIGKILL SIGNAL
-                # is received. Messages with a website's metrics will be stored id the
+                # is received. Messages with a website's metrics are stored in the
                 # messages_queue by the StreamConsumerThread:
                 msg = self._messages_queue.get(block=True)
                 self._bounded_executor.submit(self._thread_func, msg)
