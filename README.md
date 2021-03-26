@@ -5,8 +5,10 @@ Websites monitor
 - [DEV-DEPENDENCIES](#dev-dependencies)  
 - [CONFIGURATION](#configuration)
 - [RUN](#run)
+- [LOGS](#logs)
 - [RUN-TESTS](#run-tests)
 - [TODO](#todo)
+- [NOTES](#notes)
 - [REFERENCES](#references)
 
 # DESCRIPTION
@@ -126,6 +128,12 @@ in 2 different machines/VMs, and follow the configuration steps mentioned previo
 sure to copy the Kafka service certificates and key files to both machines, inside the 
 `kafka_certs` directory.
 
+# LOGS
+
+Each of the two services, generate logs related to their execution. These log files 
+will be created in a directory named `data`, inside each service directory:<br>
+`consumer/data` and `monitor/data`
+
 # RUN-TESTS
 
 For run the linters and tests is being used `tox`. It will run the linters and tests 
@@ -151,6 +159,7 @@ files with the test coverage report and in the terminal will appear the names of
 executed tests, and a summary of the test's coverage.
 
 # TODO
+
 - Use [Sentry](https://sentry.io/welcome/) for monitor and track errors and crashes.
 - Use [Apache Avro](https://www.confluent.io/blog/avro-kafka-data/) as a serialization 
   protocol for the Kafka messages. Avro is a data serialization system. Combined with 
@@ -163,6 +172,12 @@ executed tests, and a summary of the test's coverage.
 - Deploy the `monitor` crawler to some distributed crawler management infrastructure 
   like [Scrapyd](https://scrapyd.readthedocs.io/en/stable/) or 
   [Gerapy](https://docs.gerapy.com/en/latest/).
+
+# NOTES
+
+Attribution to code written by someone else, either in a blog article or on 
+SatckOverflow, is mentioned in every source code file that makes use of it. In each 
+case, modifications to the original code are also mentioned.
 
 # REFERENCES
 
