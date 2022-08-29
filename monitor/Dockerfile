@@ -14,13 +14,13 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 WORKDIR /app
 
+COPY ./monitor/requirements.txt monitor/requirements.txt
+RUN python -m pip install --upgrade pip
+RUN python -m pip install -r monitor/requirements.txt --no-cache-dir
+
 COPY ./kafka_certs /app/kafka_certs
 COPY ./common /app/common
 COPY ./monitor /app/monitor
-# COPY ./monitor/requirements.txt /app/requirements.txt
-
-RUN python -m pip install --upgrade pip
-RUN python -m pip install -r monitor/requirements.txt --no-cache-dir
 
 ENV PYTHONPATH /app
 ENV PYTHONUNBUFFERED 1
@@ -28,11 +28,4 @@ ENV PYTHONUNBUFFERED 1
 # ENV SPIDER_NAME websites_metrics
 ENV SCRAPY_SETTINGS_MODULE=monitor.monitor.settings
 
-# chmod +x /app/monitor/monitor/init.sh
-# ENTRYPOINT [ "/app/monitor/monitor/init.sh" ]
-
-# ADD ./monitor/init.sh /init.sh
-# RUN ["chmod", "+x", "/app/monitor/init.sh"]
-
-# RUN ["cd" "/app/monitor"]
 ENTRYPOINT ["/app/monitor/init.sh"]
