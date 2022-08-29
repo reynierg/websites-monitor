@@ -15,18 +15,15 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 WORKDIR /app
 
+COPY ./consumer/requirements.txt /app/consumer/requirements.txt
+RUN python -m pip install --upgrade pip
+RUN python -m pip install -r consumer/requirements.txt --no-cache-dir
+
 COPY ./kafka_certs /app/kafka_certs
 COPY ./common /app/common
 COPY ./consumer /app/consumer
-# COPY ./consumer/requirements.txt /app/requirements.txt
-
-RUN python -m pip install --upgrade pip
-RUN python -m pip install -r consumer/requirements.txt --no-cache-dir
 
 ENV PYTHONPATH /app
 ENV PYTHONUNBUFFERED 1
 
-# CMD ["python3", "/app/consumer/consumer/main.py" ]
-# Trying to see how to receive KeyboarInterrupt in the python script:
-# CMD ["consumer/consumer/main.py" ]
 ENTRYPOINT ["python3", "consumer/consumer/main.py"]
