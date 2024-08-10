@@ -65,7 +65,7 @@ class DbManager:
 
     @contextmanager
     def _get_connection(self, use_transaction=False):
-        """Gets a db connection and provides a transaction context for it.
+        """KKKKKKKKKKKKKKGets a db connection and provides a transaction context for it.
 
         Acquires a database connection from a connections pool, and
         guarantees that it will be released back when the corresponding
